@@ -35,7 +35,9 @@ export default async function Page() {
                 <li key={post.id} className="post-card">
                     <h2 className="post-title">{post.title}</h2>
                     <h5 className="post-title">{post.body}</h5>
-                    <h5 className="post-author">Author ID:{authors[index].name}</h5>
+                    <Link href={`/users/${authors[index].id}`}>
+                        <h5 className="post-author">Author ID:{authors[index].name}</h5>
+                    </Link>    
                     <h6 className="post-id">Post number {post.id}</h6>
                     <Link href={`/posts/${post.id}`}>
                         <button className="view-btn">View</button>
