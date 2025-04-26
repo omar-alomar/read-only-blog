@@ -228,3 +228,29 @@ text-decoration: none;
     background: #005ad3;
   }
   
+  .section-label {
+    margin-top: 2rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .comment-card {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .comment-name {
+    font-weight: bold;
+  }
+  
+  .comment-email {
+    font-size: 0.9rem;
+    color: gray;
+  }
+  
+  .comment-body {
+    margin-top: 0.5rem;
+  }
+  

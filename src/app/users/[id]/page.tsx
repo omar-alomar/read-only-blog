@@ -3,6 +3,16 @@ export async function getUser(id: number) {
         cache: 'no-store'
     })
     if (!res.ok) {
+        throw new Error('Failed to fetch user')
+    }
+    return res.json()
+}
+
+export async function getTodos() {
+    const res = await fetch(`https://127.0.0.1:3001/todos`, {
+        cache: 'no-store'
+    })
+    if (!res.ok) {
         throw new Error('Failed to fetch todos')
     }
     return res.json()
@@ -11,6 +21,7 @@ export async function getUser(id: number) {
 
 export default async function Users( { params } : { params: {id: string}}) {
     const user = await getUser(Number(params.id))
+    // const todos = await 
 
     return(<>
             <div className="container">
