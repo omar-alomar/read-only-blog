@@ -9,7 +9,7 @@ export async function getUser(id: number) {
 }
 
 export async function getTodos() {
-    const res = await fetch(`https://127.0.0.1:3001/todos`, {
+    const res = await fetch(`http://127.0.0.1:3001/todos`, {
         cache: 'no-store'
     })
     if (!res.ok) {
@@ -18,10 +18,27 @@ export async function getTodos() {
     return res.json()
 }
 
+export async function getComments() {
+    const res = await fetch(`http://127.0.0.1:3001/comments`, {
+        cache: 'no-store'
+    })
+    if (!res.ok) {
+        throw new Error('Failed to fetch comments')
+    }
+    return res.json()
+}
+
 
 export default async function Users( { params } : { params: {id: string}}) {
-    const user = await getUser(Number(params.id))
-    // const todos = await 
+    const [user, todos, comments] = await Promise.all([
+        getUser(Number(params.id)),
+        getTodos(),
+        getComments()
+    ]);
+
+    const userTodos = todos.filter((todo: any) => todo.userId === user.id);
+    const userComments = comments.filter((comment: any) => comment.email.toLowerCase() ===  user.email.toLowerCase())
+
 
     return(<>
             <div className="container">
@@ -48,5 +65,31 @@ export default async function Users( { params } : { params: {id: string}}) {
                 <p>{user.company.bs}</p>
             </div>
             </div>
+
+            <div className="card">
+            <h3>User Todos</h3>
+            <ul className="todo-list">
+                {userTodos.map((todo: any) => (
+                    <li key={todo.id} className="todo-item">
+                        <input type="checkbox" checked={todo.completed} readOnly />
+                        <span>{todo.title}</span>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
+        <div className="card">
+            <h3>User Comments</h3>
+            <ul className="comment-list">
+                {userComments.map((comment: any) => (
+                    <li key={comment.id} className="comment-item">
+                        <strong>{comment.name}</strong>
+                        <p>{comment.body}</p>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
+            {JSON.stringify(userComments)}
     </>)
 }
